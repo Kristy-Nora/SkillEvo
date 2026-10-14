@@ -1,0 +1,29 @@
+{
+  "case_id": "SYNTHETIC_WORKFLOW_001",
+  "example_status": "Synthetic text-only interface fixture; not a benchmark patient",
+  "department": "respiratory",
+  "patient_visible": {
+    "chief_complaint": "Cough and fever for several days.",
+    "present_illness": "The symptoms started before the reported treatment. The exact treatment name is not recorded.",
+    "past_history": "Not recorded.",
+    "vital_signs": {
+      "temperature_celsius": 38.0
+    }
+  },
+  "exam_visible": {
+    "lab_tests": [
+      {
+        "test_name": "Example report",
+        "report_text": "Synthetic report R1. This fixture does not encode a clinical diagnosis."
+      }
+    ],
+    "imaging": [],
+    "pathology": []
+  },
+  "eval_hidden": {
+    "gold_standard_diagnosis": {
+      "primary": "Synthetic label A"
+    },
+    "note": "Offline fixture target only. Never pass this section to the doctor."
+  }
+}

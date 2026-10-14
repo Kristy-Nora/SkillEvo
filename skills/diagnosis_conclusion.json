@@ -1,0 +1,17 @@
+[
+  {
+    "skill_id": "ILLUSTRATION_004",
+    "category": "diagnosis_conclusion",
+    "name": "Match diagnostic certainty to available evidence",
+    "abstraction_level": "L3",
+    "trigger": "When preparing the final diagnostic conclusion.",
+    "action": "Separate observed findings, model interpretations, and unresolved assumptions. State the leading diagnosis together with its supporting evidence and remaining uncertainty.",
+    "decision_rule": "Describe uncertainty when an important discriminator is missing; do not turn missing information into a confirmed exclusion.",
+    "effect": "Makes the conclusion and its evidence limitations inspectable.",
+    "pitfall": "Presenting a plausible hypothesis as established without the necessary evidence.",
+    "generalizable_to": [
+      "Clinical reasoning workflow"
+    ],
+    "example_status": "Adapted illustration; not a measured experimental output"
+  }
+]

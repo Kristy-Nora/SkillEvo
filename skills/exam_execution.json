@@ -1,0 +1,17 @@
+[
+  {
+    "skill_id": "ILLUSTRATION_003",
+    "category": "exam_execution",
+    "name": "Choose examinations that distinguish active hypotheses",
+    "abstraction_level": "L3",
+    "trigger": "When the current evidence leaves competing diagnostic hypotheses unresolved.",
+    "action": "State the unresolved question and what each possible report could clarify before requesting an available examination.",
+    "decision_rule": "Prefer a check that can distinguish the active alternatives; do not interpret an unavailable report as a negative result.",
+    "effect": "Connects each examination request to a specific diagnostic information gap.",
+    "pitfall": "Ordering tests solely to confirm an initial impression, or inventing unavailable findings.",
+    "generalizable_to": [
+      "Clinical reasoning workflow"
+    ],
+    "example_status": "Adapted illustration; not a measured experimental output"
+  }
+]

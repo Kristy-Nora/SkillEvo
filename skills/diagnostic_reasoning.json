@@ -1,0 +1,17 @@
+[
+  {
+    "skill_id": "ILLUSTRATION_002",
+    "category": "diagnostic_reasoning",
+    "name": "Update hypotheses when new evidence arrives",
+    "abstraction_level": "L2",
+    "trigger": "When a patient response or examination report adds relevant information.",
+    "action": "Compare the new information with each active hypothesis. Record supporting, opposing, and still-unknown evidence before selecting the next action.",
+    "decision_rule": "Revise the working differential when new evidence contradicts the leading hypothesis; retain plausible alternatives while key checks remain unresolved.",
+    "effect": "Keeps the working differential linked to accumulated evidence.",
+    "pitfall": "Repeating the initial diagnosis without checking new contradictory information.",
+    "generalizable_to": [
+      "Clinical reasoning workflow"
+    ],
+    "example_status": "Adapted illustration; not a measured experimental output"
+  }
+]

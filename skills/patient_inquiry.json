@@ -1,0 +1,17 @@
+[
+  {
+    "skill_id": "ILLUSTRATION_001",
+    "category": "patient_inquiry",
+    "name": "Clarify the symptom and treatment timeline",
+    "abstraction_level": "L2",
+    "trigger": "When symptoms change during or after an intervention.",
+    "action": "Ask when each symptom began, when each intervention started, and what changed afterward. Record unknown dates explicitly.",
+    "decision_rule": "Use the timeline to identify questions for further investigation; temporal association alone does not establish causation.",
+    "effect": "Makes the chronology explicit before updating the differential diagnosis.",
+    "pitfall": "Treating an unreported event as absent, or treating sequence as proof of causation.",
+    "generalizable_to": [
+      "Clinical reasoning workflow"
+    ],
+    "example_status": "Adapted illustration; not a measured experimental output"
+  }
+]

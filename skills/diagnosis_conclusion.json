@@ -1,17 +1,98 @@
 [
   {
-    "skill_id": "ILLUSTRATION_004",
+    "skill_id": "SKILL_CONCL_EXAMPLE_001",
     "category": "diagnosis_conclusion",
-    "name": "Match diagnostic certainty to available evidence",
-    "abstraction_level": "L3",
-    "trigger": "When preparing the final diagnostic conclusion.",
-    "action": "Separate observed findings, model interpretations, and unresolved assumptions. State the leading diagnosis together with its supporting evidence and remaining uncertainty.",
-    "decision_rule": "Describe uncertainty when an important discriminator is missing; do not turn missing information into a confirmed exclusion.",
-    "effect": "Makes the conclusion and its evidence limitations inspectable.",
-    "pitfall": "Presenting a plausible hypothesis as established without the necessary evidence.",
+    "name": "Comprehensive Interpretation of Malignant Imaging Features in Diagnostic Conclusions",
+    "abstraction_level": "L2",
+    "trigger": "When imaging reveals a space-occupying lesion with morphological malignant features (lobulation, spiculation, vascular convergence)",
+    "action": "Integrate lesion size, location, and accompanying signs (obstructive pneumonia, pleural effusion) to provide a conclusion indicating high suspicion of malignancy. Explicitly distinguish between imaging diagnosis and pathological confirmation, and identify key missing staging information (distant metastasis assessment).",
+    "decision_rule": "If imaging features are classic for malignancy → list malignancy as the primary diagnosis while clearly stating the need for pathological confirmation. Do not report imaging findings without providing a diagnostic impression.",
+    "effect": "Ensures accurate clinical communication — neither undercalling suspicious cancer as generic inflammation, nor overstating certainty without tissue confirmation — guiding correct subsequent biopsy or referral pathways",
+    "pitfall": "Describing imaging findings without providing a diagnostic impression, or ignoring accompanying obstructive changes, leading to misdirected treatment (anti-inflammatory only without anti-tumor consideration)",
     "generalizable_to": [
-      "Clinical reasoning workflow"
+      "Liver lesion characterization",
+      "Breast nodule BI-RADS application",
+      "Brain mass differential"
     ],
-    "example_status": "Adapted illustration; not a measured experimental output"
+    "source_count": 4,
+    "_score": 66.8,
+    "confidence": "medium"
+  },
+  {
+    "skill_id": "SKILL_CONCL_EXAMPLE_002",
+    "category": "diagnosis_conclusion",
+    "name": "Composite Diagnosis Construction Based on Pathophysiological Mechanisms",
+    "abstraction_level": "L2",
+    "trigger": "When a patient has a clear acute precipitant (infection) combined with signs of chronic underlying disease (long smoking history, prior wheezing) or organ function decompensation",
+    "action": "When giving the acute diagnosis (severe pneumonia), must simultaneously assess and explicitly state whether there is acute exacerbation of a chronic underlying condition (AECOPD) or multi-organ dysfunction syndrome",
+    "decision_rule": "Diagnosis conclusion must contain three dimensions: acute event + baseline status + complications. If baseline disease history is unavailable, note 'chronic underlying disease cannot be excluded' and recommend follow-up confirmation.",
+    "effect": "Provides a more complete treatment rationale, because the presence of underlying disease significantly alters acute-phase management strategy (ventilation mode, antibiotic choice, fluid management)",
+    "pitfall": "Diagnosing only the acute presentation while ignoring the underlying chronic disease, leading to imprecise treatment and inaccurate prognosis assessment",
+    "generalizable_to": [
+      "Chronic liver disease with acute infection",
+      "Diabetic ketoacidosis with concurrent infection",
+      "Chronic kidney disease acute exacerbation"
+    ],
+    "source_count": 3,
+    "_score": 69.5,
+    "confidence": "medium"
+  },
+  {
+    "skill_id": "SKILL_CONCL_EXAMPLE_003",
+    "category": "diagnosis_conclusion",
+    "name": "Multi-Dimensional Evidence Chain Synthesis with Medication Safety Verification",
+    "abstraction_level": "L2",
+    "trigger": "When imaging confirmation is obtained and a treatment plan is about to be formulated",
+    "action": "Synthesize clinical presentation, laboratory inflammatory markers, and imaging features into a final diagnosis. Before prescribing, mandatorily verify drug allergy history and recent medication history.",
+    "decision_rule": "Diagnosis must be supported by: symptoms + signs + imaging + laboratory evidence chain. Treatment plan must avoid patient allergens and consider recent antibiotic use for resistance risk. If there are contradictions in the evidence chain (severe imaging but mild symptoms) → re-examine the diagnosis.",
+    "effect": "Ensures diagnostic rigor and treatment safety, preventing treatment failure or adverse reactions from overlooked allergies or antibiotic resistance",
+    "pitfall": "Issuing a diagnosis based solely on imaging reports while ignoring clinical context, or prescribing routine antibiotics without checking allergy history — potentially causing serious medical errors",
+    "generalizable_to": [
+      "All infectious disease treatment",
+      "Chronic disease acute exacerbation management",
+      "Multi-morbidity patient care"
+    ],
+    "source_count": 5,
+    "_score": 74.8,
+    "confidence": "high"
+  },
+  {
+    "skill_id": "SKILL_CONCL_EXAMPLE_004",
+    "category": "diagnosis_conclusion",
+    "name": "Uncertainty-Aware Diagnostic Expression Under Conflicting Evidence",
+    "abstraction_level": "L2",
+    "trigger": "When existing evidence supports one diagnosis (positive bacterial culture) but clinical presentation (course, toxicity, blood panel features) is more consistent with another disease category (severe viral pneumonia), and gold-standard confirmation is unavailable",
+    "action": "In the diagnostic conclusion, explicitly list both the most likely diagnosis and diagnoses that remain to be excluded. Point out the specific contradictions in current evidence (e.g., although E. coli grew in culture, it cannot explain all severe features). Avoid premature diagnostic closure.",
+    "decision_rule": "If key confirmatory tests (viral PCR, specific serology) are incomplete → the conclusion must contain qualifiers such as 'suspected' or 'cannot exclude' and recommend targeted supplemental testing. If treatment response is poor → re-evaluate the differential diagnoses that were previously deprioritized.",
+    "effect": "Maintains diagnostic openness, prevents misattribution from forcing incomplete evidence into a single diagnosis, and preserves space for diagnostic correction if the clinical course does not follow predictions",
+    "pitfall": "Forcibly integrating incompletely matching evidence into one diagnosis, ignoring contradictions, leading to missed comorbid conditions or incorrect primary etiology determination",
+    "generalizable_to": [
+      "Complex infectious disease",
+      "Multi-system involvement disease",
+      "Rare disease initial screening"
+    ],
+    "source_count": 3,
+    "_score": 62.4,
+    "confidence": "medium"
+  },
+  {
+    "skill_id": "SKILL_CONCL_EXAMPLE_005",
+    "category": "diagnosis_conclusion",
+    "name": "Match Diagnostic Certainty to Evidence Strength — Never Overstate Confidence",
+    "abstraction_level": "L3",
+    "trigger": "Every time a diagnosis is formulated, whether final or interim, at any stage of the clinical encounter",
+    "action": "Calibrate the certainty of every diagnostic statement to the actual strength of the evidence supporting it. Use explicit uncertainty qualifiers: 'confirmed by [gold standard]' only when the gold standard has been obtained; 'highly suspected based on [specific evidence]' when strongly supported but not pathologically confirmed; 'cannot be excluded' when still in the differential but less likely; 'working diagnosis' when provisional and subject to revision. Explicitly list: what supports this diagnosis, what argues against it, and what additional information would change the assessment.",
+    "decision_rule": "The confidence level in the diagnosis must be proportional to: (a) the specificity of the supporting evidence, (b) the number of independent corroborating findings, (c) the thoroughness with which competing diagnoses have been excluded, and (d) the degree to which the diagnosis explains ALL findings — not just most of them.",
+    "effect": "Prevents overconfident misdiagnosis (the most common cause of diagnostic error), enables appropriate resource allocation (high-certainty diagnoses warrant definitive treatment while uncertain ones warrant further investigation), and provides clear handoff communication",
+    "pitfall": "Overstating certainty to appear decisive; using definitive language ('the diagnosis is X') for working diagnoses; failing to communicate what would change the assessment; allowing diagnostic momentum to suppress re-evaluation when the clinical course does not fit",
+    "generalizable_to": [
+      "Every diagnostic conclusion in every clinical setting",
+      "Handoff and referral communication",
+      "Medical documentation and discharge summaries",
+      "Multi-disciplinary team decision-making"
+    ],
+    "source_count": 8,
+    "_score": 86.9,
+    "confidence": "high"
   }
 ]

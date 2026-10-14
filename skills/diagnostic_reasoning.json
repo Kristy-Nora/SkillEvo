@@ -1,17 +1,99 @@
 [
   {
-    "skill_id": "ILLUSTRATION_002",
+    "skill_id": "SKILL_REASON_EXAMPLE_001",
     "category": "diagnostic_reasoning",
-    "name": "Update hypotheses when new evidence arrives",
+    "name": "Etiologic Tracing and Differentiation of Hyperlactatemia",
     "abstraction_level": "L2",
-    "trigger": "When a patient response or examination report adds relevant information.",
-    "action": "Compare the new information with each active hypothesis. Record supporting, opposing, and still-unknown evidence before selecting the next action.",
-    "decision_rule": "Revise the working differential when new evidence contradicts the leading hypothesis; retain plausible alternatives while key checks remain unresolved.",
-    "effect": "Keeps the working differential linked to accumulated evidence.",
-    "pitfall": "Repeating the initial diagnosis without checking new contradictory information.",
+    "trigger": "When arterial blood gas analysis shows severe metabolic acidosis with hyperlactatemia (Lactate > 5-10 mmol/L)",
+    "action": "Rapidly distinguish Type A lactic acidosis (tissue hypoxia/shock) from Type B lactic acidosis (metabolic abnormality/toxins/malignancy). Investigate by synthesizing hemodynamic status, blood glucose, ketone bodies, and toxic exposure history.",
+    "decision_rule": "If hypotensive with poor perfusion → prioritize shock/hypoxia workup. If perfusion is adequate but lactate is extremely elevated → investigate diabetic ketoacidosis, alcoholic ketoacidosis, high tumor burden, or mitochondrial toxicity.",
+    "effect": "Precisely localizes the source of acidosis, avoiding mismanagement with inappropriate fluid resuscitation or insulin therapy",
+    "pitfall": "Attributing all hyperlactatemia to hypoxia while ignoring alcohol poisoning, malignancy, or drug-induced metabolic acidosis",
     "generalizable_to": [
-      "Clinical reasoning workflow"
+      "Unexplained metabolic acidosis",
+      "Shock differentiation",
+      "Toxicological emergencies"
     ],
-    "example_status": "Adapted illustration; not a measured experimental output"
+    "source_count": 6,
+    "_score": 76.4,
+    "confidence": "high"
+  },
+  {
+    "skill_id": "SKILL_REASON_EXAMPLE_002",
+    "category": "diagnostic_reasoning",
+    "name": "Causal Association Analysis Between Drug Exposure and Organ Injury",
+    "abstraction_level": "L2",
+    "trigger": "When a patient develops new-onset organ dysfunction (hepatic injury, renal injury, rash) with a clear medication history preceding the event, and other common etiologies have been excluded",
+    "action": "Meticulously trace the medication time window, drug classes, and known adverse reaction profiles. Assess the temporal correlation and biological plausibility between the drug and the injury.",
+    "decision_rule": "If medication timing matches symptom onset and the drug has known toxicity, classify drug-induced injury as a high-priority differential even when other underlying conditions exist — treat as drug-related until proven otherwise.",
+    "effect": "Enables timely identification of reversible iatrogenic injury, prevents irreversible consequences from continued drug exposure, and optimizes treatment safety",
+    "pitfall": "Mistaking drug side effects for disease progression or complications, leading to erroneous escalation of treatment intensity rather than discontinuation of the causative agent",
+    "generalizable_to": [
+      "Acute kidney injury etiology workup",
+      "Unexplained rash diagnosis",
+      "Hematological abnormality assessment"
+    ],
+    "source_count": 4,
+    "_score": 73.5,
+    "confidence": "high"
+  },
+  {
+    "skill_id": "SKILL_REASON_EXAMPLE_003",
+    "category": "diagnostic_reasoning",
+    "name": "Differentiating Treatment-Related Complications from Primary Disease Progression",
+    "abstraction_level": "L2",
+    "trigger": "When a patient develops new symptoms or imaging abnormalities after prolonged or intensive treatment",
+    "action": "Systematically compare the features of natural disease progression versus treatment side effects/complications. Focus on: temporal correlation (interval between treatment and symptom onset); distribution pattern (whether consistent with radiation field or drug distribution); and biomarker trends. List treatment-related complications as an equally prioritized differential alongside disease recurrence/progression.",
+    "decision_rule": "If imaging changes are located in prior high-dose radiation areas with ground-glass/consolidation pattern → favor radiation pneumonitis. If nodular enlargement or new distant metastases → favor tumor progression. Analyze whether distribution matches the radiation port, whether morphology is consistent with fibrosis (traction, band-like), and consider time window (acute vs late phase). Consider short-course anti-inflammatory trial or re-biopsy when uncertain.",
+    "effect": "Prevents misclassifying reversible treatment side effects as irreversible disease progression, avoiding unnecessary second-line therapy or abandonment of effective treatment",
+    "pitfall": "Attributing all new abnormalities to tumor progression (leading to overtreatment) OR attributing everything to side effects (delaying tumor control) — both errors stem from ignoring how treatment history modifies imaging interpretation",
+    "generalizable_to": [
+      "Radiation brain necrosis vs recurrence",
+      "Drug-induced liver injury vs viral hepatitis",
+      "Post-surgical adhesions vs tumor recurrence",
+      "Head and neck tumor post-radiotherapy follow-up"
+    ],
+    "source_count": 5,
+    "_score": 71.2,
+    "confidence": "high"
+  },
+  {
+    "skill_id": "SKILL_REASON_EXAMPLE_004",
+    "category": "diagnostic_reasoning",
+    "name": "Dynamic Bayesian Diagnostic Hypothesis Updating",
+    "abstraction_level": "L2",
+    "trigger": "Each time new clinical evidence becomes available (new patient answer, new exam result, new guideline information)",
+    "action": "Match the new evidence against all active diagnostic hypotheses. For each hypothesis, assess whether the evidence supports, opposes, or is neutral. Adjust probabilities accordingly. If new evidence conflicts with the leading hypothesis, downgrade it and elevate the alternative that best explains the full evidence set.",
+    "decision_rule": "Apply Bayesian reasoning informally: posterior probability ∝ prior probability × likelihood of observing this evidence under each hypothesis. Key positive findings raise probability of compatible diagnoses; key negative findings (expected finding is absent) lower probability. The diagnosis that simultaneously explains the most positive findings AND is not contradicted by key negative findings should lead.",
+    "effect": "Prevents anchoring bias — the diagnosis evolves dynamically as evidence accumulates rather than being locked onto an early impression",
+    "pitfall": "Confirmation bias: seeking only evidence that supports the leading diagnosis while ignoring or downweighting contradictory evidence. Also: prematurely closing diagnosis when key discriminating evidence is still missing.",
+    "generalizable_to": [
+      "All clinical reasoning across specialties",
+      "Complex multi-system disease workup",
+      "Treatment response assessment"
+    ],
+    "source_count": 7,
+    "_score": 85.0,
+    "confidence": "high"
+  },
+  {
+    "skill_id": "SKILL_REASON_EXAMPLE_005",
+    "category": "diagnostic_reasoning",
+    "name": "When Clinical Picture and Objective Data Contradict, Re-examine the Diagnostic Assumptions",
+    "abstraction_level": "L3",
+    "trigger": "When there is a fundamental contradiction between the clinical presentation and objective data — for example: severe symptoms with reassuring test results, or mild symptoms with alarming test results; or when test results from different modalities fundamentally conflict",
+    "action": "Systematically challenge each diagnostic assumption: (a) Could the 'objective' test be wrong or misinterpreted (pre-analytical error, wrong reference range, artifact)? (b) Is there a hidden variable that explains both the symptoms and the unexpected test results? (c) Could two independent disease processes be occurring simultaneously? (d) Is the assumed causal chain backwards? Re-examine the diagnostic hypothesis with the same rigor as when first forming it.",
+    "decision_rule": "When contradictions persist after verifying test quality, broaden rather than narrow the differential. The correct diagnosis must explain ALL the data, not just the majority of it. Prioritize hypotheses that resolve the contradiction rather than ignoring one side of it.",
+    "effect": "Prevents the most dangerous type of diagnostic error — forcing evidence to fit a preconceived diagnosis by discounting contradictory data. This is the single most important safeguard against catastrophic misdiagnosis.",
+    "pitfall": "Discounting contradictory evidence as 'spurious' or 'incidental' without rigorous verification; anchoring on the most dramatic finding while ignoring discordant results; failing to consider that two disease processes may coexist",
+    "generalizable_to": [
+      "Every clinical encounter, every specialty, every care setting",
+      "Radiology-pathology discordance resolution",
+      "Treatment failure analysis",
+      "Unexpected clinical deterioration"
+    ],
+    "source_count": 9,
+    "_score": 91.2,
+    "confidence": "high"
   }
 ]

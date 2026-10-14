@@ -1,17 +1,97 @@
 [
   {
-    "skill_id": "ILLUSTRATION_001",
+    "skill_id": "SKILL_INQ_EXAMPLE_001",
     "category": "patient_inquiry",
-    "name": "Clarify the symptom and treatment timeline",
+    "name": "Rapid Organ Perfusion Assessment Based on Hemodynamic Risk",
     "abstraction_level": "L2",
-    "trigger": "When symptoms change during or after an intervention.",
-    "action": "Ask when each symptom began, when each intervention started, and what changed afterward. Record unknown dates explicitly.",
-    "decision_rule": "Use the timeline to identify questions for further investigation; temporal association alone does not establish causation.",
-    "effect": "Makes the chronology explicit before updating the differential diagnosis.",
-    "pitfall": "Treating an unreported event as absent, or treating sequence as proof of causation.",
+    "trigger": "When facing a patient with acute critical symptoms (dyspnea, chest pain, syncope) and need to rapidly assess for compensated or early decompensated shock",
+    "action": "Prioritize questions about cerebral perfusion (consciousness, dizziness, blackouts) and renal perfusion (recent urine output changes), while also screening for venous thromboembolism risk factors (prior history, immobilization, surgery)",
+    "decision_rule": "If altered consciousness or oliguria/anuria present → suspect tissue hypoperfusion → initiate shock resuscitation and prioritize cardiac/obstructive etiology workup. If perfusion indicators are normal but risk factors are positive → focus on specific embolic/obstructive disease differentials.",
+    "effect": "Enables rapid risk stratification through history-taking when real-time monitoring data is unavailable, identifying occult shock and preventing missed diagnoses of life-threatening hypoperfusion states",
+    "pitfall": "Focusing only on the chief complaint while ignoring systemic perfusion status, leading to delayed recognition of potential shock; or over-relying on guideline lookup before assessing vital sign stability",
     "generalizable_to": [
-      "Clinical reasoning workflow"
+      "Acute chest pain differential diagnosis",
+      "Unexplained syncope emergency assessment",
+      "Severe trauma primary survey"
     ],
-    "example_status": "Adapted illustration; not a measured experimental output"
+    "source_count": 5,
+    "_score": 78.2,
+    "confidence": "high"
+  },
+  {
+    "skill_id": "SKILL_INQ_EXAMPLE_002",
+    "category": "patient_inquiry",
+    "name": "Structured Systematic Review of Systems for Etiologic Stratification",
+    "abstraction_level": "L2",
+    "trigger": "When facing a focal neurological deficit or system-specific symptom with multiple potential etiologies (microvascular, space-occupying, inflammatory, etc.) that need differentiation",
+    "action": "After asking about basic risk factors, systematically screen for red-flag accompanying symptoms that can distinguish different etiologic mechanisms (pain characteristics, other cranial nerve involvement signs, symptom fluctuation patterns), rather than asking generic systemic review questions",
+    "decision_rule": "If accompanying symptoms suggest central or space-occupying lesions (multiple cranial nerve involvement, severe headache) → prioritize imaging. If presenting as isolated symptom consistent with microvascular features → consider conservative observation or targeted metabolic workup based on risk factors.",
+    "effect": "Narrows the differential diagnosis range quickly through high-specificity symptom inquiry, avoids missing critical emergencies, and improves the targeting of subsequent exam selection",
+    "pitfall": "Ignoring the specificity of accompanying symptoms, leading to classification of all similar presentations into the same common benign category, thereby delaying diagnosis of serious conditions such as tumors or aneurysms",
+    "generalizable_to": [
+      "Acute headache differential diagnosis",
+      "Peripheral facial palsy etiology workup",
+      "Unilateral limb weakness central vs peripheral localization"
+    ],
+    "source_count": 4,
+    "_score": 71.5,
+    "confidence": "high"
+  },
+  {
+    "skill_id": "SKILL_INQ_EXAMPLE_003",
+    "category": "patient_inquiry",
+    "name": "Treatment Safety and Background Information Supplementary Inquiry",
+    "abstraction_level": "L2",
+    "trigger": "When diagnostic direction is largely confirmed and ready to initiate pharmacological treatment or management planning",
+    "action": "Ask about key background information that may affect drug selection and treatment safety: allergy history, prior chronic disease history, medication history, social behavior history (smoking, alcohol), and clues related to hepatic/renal function",
+    "decision_rule": "If allergy history present → avoid relevant drug classes. If underlying conditions exist (COPD, diabetes) → adjust antibiotic coverage or intensify monitoring. If no special contraindications → treat per standard guidelines.",
+    "effect": "Prevents iatrogenic harm (allergic reactions, drug interactions) and enables individualized precision treatment",
+    "pitfall": "Prescribing medication immediately after diagnosis without checking allergy history or comorbidities, leading to treatment failure or adverse reactions",
+    "generalizable_to": [
+      "All scenarios requiring prescription medication",
+      "Pre-operative risk assessment inquiry"
+    ],
+    "source_count": 6,
+    "_score": 82.1,
+    "confidence": "high"
+  },
+  {
+    "skill_id": "SKILL_INQ_EXAMPLE_004",
+    "category": "patient_inquiry",
+    "name": "Treatment-Related Symptom Temporal and Characteristic Differentiation Inquiry",
+    "abstraction_level": "L2",
+    "trigger": "When a patient with prior treatment history (chemotherapy, surgery, radiotherapy, long-term medication) presents with new or worsening clinical symptoms, and need to distinguish disease progression from treatment side effects from new complications",
+    "action": "Systematically inquire about three dimensions: 1. Treatment details (specific regimen, dose, route); 2. Temporal correlation (time interval between last treatment and symptom onset, consistency with known side-effect windows, fluctuation patterns across treatment cycles); 3. Accompanying symptom characteristics (presence of infection-specific, allergy-specific, organ-toxicity-specific, or tumor-burden-specific positive/negative signs)",
+    "decision_rule": "If symptoms began before treatment or persist independent of treatment cycles → favor disease progression. If symptoms temporally correlate with drug administration, are new after treatment, or match typical side-effect latency → favor drug adverse reaction or complication. If timeline does not match and no specific signs → investigate independent new disease.",
+    "effect": "Establishes a temporal causal chain between symptoms and treatment characteristics, rapidly excludes low-probability hypotheses, avoids misattributing unrelated new conditions to prior treatment, and improves differential diagnosis precision",
+    "pitfall": "Assuming all new abnormalities are disease progression, missing reversible treatment toxicity or new independent disease processes",
+    "generalizable_to": [
+      "Oncology follow-up symptom assessment",
+      "Post-surgical complication evaluation",
+      "Chronic disease medication monitoring"
+    ],
+    "source_count": 3,
+    "_score": 68.7,
+    "confidence": "medium"
+  },
+  {
+    "skill_id": "SKILL_INQ_EXAMPLE_005",
+    "category": "patient_inquiry",
+    "name": "Functional Status and Treatment Tolerance Assessment",
+    "abstraction_level": "L3",
+    "trigger": "After establishing a primary diagnosis and before formulating a further treatment plan",
+    "action": "Assess the patient's performance status (ECOG-equivalent), inquire about detailed prior treatment specifics (number of cycles, time of last dose), and actively screen for high-risk metastatic symptoms that would change management (headache, vision changes, bone pain)",
+    "decision_rule": "Performance status determines fitness for aggressive therapy. Prior treatment response patterns distinguish refractory relapse from sensitive recurrence. Neurological symptom screening detects occult metastases that would alter treatment priority.",
+    "effect": "Ensures treatment safety and feasibility by aligning therapeutic intensity with patient reserve, avoiding treatment failure or severe toxicity from ignoring overall patient status",
+    "pitfall": "Focusing solely on the tumor/primary disease while ignoring the patient's global functional status, leading to either overtreatment or undertreatment",
+    "generalizable_to": [
+      "Geriatric treatment decision-making",
+      "Chronic disease long-term management",
+      "Pre-operative risk assessment",
+      "Palliative care transition planning"
+    ],
+    "source_count": 7,
+    "_score": 84.3,
+    "confidence": "high"
   }
 ]

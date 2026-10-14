@@ -1,17 +1,98 @@
 [
   {
-    "skill_id": "ILLUSTRATION_003",
+    "skill_id": "SKILL_EXAM_EXAMPLE_001",
     "category": "exam_execution",
-    "name": "Choose examinations that distinguish active hypotheses",
-    "abstraction_level": "L3",
-    "trigger": "When the current evidence leaves competing diagnostic hypotheses unresolved.",
-    "action": "State the unresolved question and what each possible report could clarify before requesting an available examination.",
-    "decision_rule": "Prefer a check that can distinguish the active alternatives; do not interpret an unavailable report as a negative result.",
-    "effect": "Connects each examination request to a specific diagnostic information gap.",
-    "pitfall": "Ordering tests solely to confirm an initial impression, or inventing unavailable findings.",
+    "name": "Gold-Standard Confirmatory Testing Strategy for High-Risk Diagnoses",
+    "abstraction_level": "L2",
+    "trigger": "When clinical suspicion exists for a high-mortality condition (pulmonary embolism, aortic dissection) and initial screening (D-dimer, ECG) cannot definitively exclude it, or when clinical presentation is highly suggestive",
+    "action": "Directly select confirmatory imaging with high sensitivity and specificity (CTPA, contrast-enhanced CT) rather than relying solely on indirect markers or low-sensitivity tests",
+    "decision_rule": "If the suspected disease has high mortality and the consequence of misdiagnosis is severe, even when pretest probability is moderate, prioritize definitive imaging that can rule in or rule out with certainty",
+    "effect": "Minimizes the risk of missing life-threatening diagnoses and prevents diagnostic delays caused by insufficient testing intensity",
+    "pitfall": "Over-relying on screening markers like D-dimer and refusing further imaging, or overusing high-radiation/high-cost tests in truly low-risk populations",
     "generalizable_to": [
-      "Clinical reasoning workflow"
+      "Suspected pulmonary embolism",
+      "Suspected aortic dissection",
+      "Suspected intracranial hemorrhage"
     ],
-    "example_status": "Adapted illustration; not a measured experimental output"
+    "source_count": 5,
+    "_score": 79.6,
+    "confidence": "high"
+  },
+  {
+    "skill_id": "SKILL_EXAM_EXAMPLE_002",
+    "category": "exam_execution",
+    "name": "Longitudinal Comparison-Based Exam Strategy Optimization",
+    "abstraction_level": "L2",
+    "trigger": "When a new or unclear imaging abnormality is discovered and the patient has a long-term chronic disease history or prior comparable examination records",
+    "action": "Before ordering new invasive or high-cost exams, prioritize retrieving and comparing prior imaging (baseline data) to assess whether the lesion is new, its growth rate, or its stability over time",
+    "decision_rule": "If prior imaging cannot be obtained, document the lack of longitudinal comparison as an important source of uncertainty and favor exams that provide more definitive characterization (e.g., biopsy) rather than relying solely on cross-sectional imaging features",
+    "effect": "Uses temporal change rates to distinguish benign stable lesions from malignant progressive lesions, avoiding overtreatment of chronic findings or delays in rapidly progressive disease",
+    "pitfall": "Using static imaging features alone as the sole basis for diagnosis in the absence of baseline comparison, leading to mischaracterization of lesion nature",
+    "generalizable_to": [
+      "Pulmonary nodule follow-up",
+      "Renal cyst assessment",
+      "Breast mass characterization"
+    ],
+    "source_count": 4,
+    "_score": 72.3,
+    "confidence": "high"
+  },
+  {
+    "skill_id": "SKILL_EXAM_EXAMPLE_003",
+    "category": "exam_execution",
+    "name": "Neurological Examination as Substitute When Imaging Is Unavailable",
+    "abstraction_level": "L2",
+    "trigger": "When central nervous system pathology (spinal cord compression, stroke) is suspected but immediate imaging is unavailable or results are delayed",
+    "action": "Perform detailed neurological physical examination focusing on: 1. Motor strength grading (distinguishing upper/lower limbs, proximal/distal); 2. Pathological reflexes (Babinski, Hoffmann) to differentiate upper vs lower motor neuron lesions; 3. Sensory level determination; 4. Anal sphincter tone and bulbocavernosus reflex",
+    "decision_rule": "If pathological reflexes are positive (upper motor neuron signs) combined with a sensory level → clinically highly suspicious for cord compression even without MRI, manage as emergency. If deep tendon reflexes are diminished and no pathological signs → favor peripheral nerve or muscle pathology.",
+    "effect": "Uses physical signs for clinical localization when the gold-standard imaging is unavailable, providing a basis for urgent intervention (steroids, surgical consultation)",
+    "pitfall": "Relying only on the patient's subjective description of weakness without objective neurological examination, leading to inability to distinguish central from peripheral lesions and diagnostic delay",
+    "generalizable_to": [
+      "Resource-limited neurological assessment",
+      "Emergency department acute paralysis evaluation",
+      "ICU neurological monitoring in sedated patients"
+    ],
+    "source_count": 3,
+    "_score": 67.8,
+    "confidence": "medium"
+  },
+  {
+    "skill_id": "SKILL_EXAM_EXAMPLE_004",
+    "category": "exam_execution",
+    "name": "Tiered Examination Strategy for Neurological Emergencies",
+    "abstraction_level": "L2",
+    "trigger": "When a patient presents with acute or subacute neurological deficits (limb weakness) and a structural CNS lesion is suspected",
+    "action": "First perform detailed neurological examination (motor strength, tone, pathological reflexes, meningeal signs) for precise localization; then select the most diagnostic imaging based on localization (contrast-enhanced MRI preferred over CT); finally determine if systemic staging (chest CT, bone scan) is needed based on imaging findings",
+    "decision_rule": "Positive exam findings → imaging confirmation → systemic staging. If exam suggests elevated intracranial pressure or herniation risk → address the emergency first before detailed investigation. If imaging suggests metastases → must trace the primary site.",
+    "effect": "Ensures examination sequence follows clinical logic, prevents missing life-threatening complications (herniation), and provides complete staging information for subsequent treatment",
+    "pitfall": "Skipping detailed neurological examination and ordering imaging directly, or focusing only on the brain while neglecting systemic evaluation for primary tumor and overall status",
+    "generalizable_to": [
+      "Stroke unit diagnostic workflow",
+      "Tumor neurological complication assessment",
+      "Emergency neurology intake"
+    ],
+    "source_count": 5,
+    "_score": 75.0,
+    "confidence": "high"
+  },
+  {
+    "skill_id": "SKILL_EXAM_EXAMPLE_005",
+    "category": "exam_execution",
+    "name": "Diagnostic Testing Should Serve Differential Diagnosis, Not Confirm Initial Impressions",
+    "abstraction_level": "L3",
+    "trigger": "At every decision point when selecting diagnostic tests throughout the clinical reasoning process",
+    "action": "Before ordering any test, explicitly state: (a) which diagnostic question this test is intended to answer; (b) how the result — positive, negative, or indeterminate — will change the diagnostic probability or management plan; (c) whether there is a less invasive, less costly, or more rapidly available alternative that answers the same question",
+    "decision_rule": "Only order a test when its result has a reasonable probability of changing clinical management. If all possible results would lead to the same next action, the test provides no diagnostic value and should not be ordered.",
+    "effect": "Eliminates unnecessary testing, reduces patient harm and cost, and maintains diagnostic momentum by ensuring each test actively discriminates between competing hypotheses",
+    "pitfall": "Ordering tests out of habit, protocol adherence without clinical reasoning, or to defer decision-making rather than to answer a specific diagnostic question",
+    "generalizable_to": [
+      "All clinical disciplines and settings",
+      "Inpatient and outpatient workup",
+      "High-cost imaging stewardship",
+      "Reducing low-value care"
+    ],
+    "source_count": 8,
+    "_score": 88.5,
+    "confidence": "high"
   }
 ]

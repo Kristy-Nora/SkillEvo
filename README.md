@@ -2,13 +2,13 @@
 
 # SkillEvo
 
-### Self-Evolving Diagnostic Skills for Multi-Agent Clinical Reasoning
+### A Self-Evolving Diagnostic Skill System for Multi-Agent Clinical Reasoning
 
-Reusable experience · Turn-aware retrieval · External skill evolution
+Learn from clinical interactions. Retrieve relevant experience. Refine skills over time.
 
-**Partial source release for peer review** · Python 3.10+
+**Selected source code and examples for peer review**
 
-[Overview](#overview) · [Quick start](#quick-start) · [Method](#how-the-system-works) · [Examples](docs/EXAMPLES.md) · [Release scope](docs/RELEASE_SCOPE.md)
+[Framework](#framework) · [Code](#repository-structure) · [Skill Examples](#skill-examples) · [Setup](#setup)
 
 </div>
 
@@ -16,136 +16,98 @@ Reusable experience · Turn-aware retrieval · External skill evolution
 
 ## Overview
 
-SkillEvo turns consultation trajectories into reusable diagnostic skills. A doctor agent gathers information through a patient agent and an examination agent, retrieves relevant experience before each reasoning turn, and records the consultation for offline evaluation and skill extraction. The resulting library evolves through confidence updates, semantic comparison, and incremental refinement, **without updating model weights**.
+SkillEvo develops reusable diagnostic skills from multi-turn clinical interactions. A physician agent gathers patient information, requests examinations, and updates its diagnostic hypotheses. Consultation trajectories are then assessed to distill skills, while relevant skills are retrieved at each turn to support subsequent reasoning. The external skill library evolves through feedback and content refinement, **without updating model weights**.
 
-This repository contains selected modules from the paper's **multi-agent implementation**: the consultation loop, agent interfaces, extraction prompts, retrieval formulas, and library-management logic. It is a code-inspection artifact with an offline demonstration, **not the complete experimental runner**. Examination/evaluation agents, permission management, benchmark data, model weights, and experiment logs are outside this release. See [the module boundary](docs/RELEASE_SCOPE.md).
+This repository provides a **partial source snapshot** of the paper's multi-agent system, together with the examples from the original review package. It focuses on consultation orchestration, skill extraction, retrieval, scoring, and library maintenance. The complete experimental runner and external services are not included.
 
-## How the system works
+## Framework
 
-```mermaid
-flowchart LR
-    C[Case information] --> D[Doctor agent]
-    L[(Skill library)] --> R[Retrieve for current turn]
-    R --> D
-    D --> A{Next action}
-    A --> P[Ask patient]
-    A --> X[Request examination]
-    P --> O[Observe returned information]
-    X --> O
-    O --> D
-    A --> F[Final diagnosis]
-    D -. recorded events .-> T[Consultation trajectory]
-    T --> E[Offline evaluation and extraction]
-    F --> E
-    E --> U[Score, compare, and refine skills]
-    U --> L
-    G[Hidden reference diagnosis] -. offline supervision only .-> E
-```
+[![Overview of the SkillEvo framework from the paper](assets/framework_overview.png)](assets/framework_overview.png)
 
-1. **Consult.** The doctor follows a Think → Act → Observe loop, with a default limit of eight turns. Questions and examination requests are routed through the message bus; returned information updates the doctor's state.
-2. **Retrieve each turn.** A model selects relevant functional categories. The retriever embeds current evidence and differential hypotheses, filters by similarity, and ranks candidates using similarity and confidence. At most two skills per selected category are injected.
-3. **Extract after the consultation.** The extractor uses the trajectory and optional hidden training reference to produce portable rules: when they apply, what to do, what to watch for, and how they generalize.
-4. **Maintain the library.** Candidates accumulate in category buffers. Refinement compares them with related existing skills, allowing a merge, separate retention, or an abstraction-level upgrade. These are model decisions, not guaranteed outcomes.
-5. **Update confidence.** Pure scoring functions define initial confidence, signed feedback adjustments, merge scores, and deprecation criteria. The full evaluation-and-update runner is not included here.
+*Framework overview reproduced from the paper. Click the image to view it at full resolution.*
 
-The reference diagnosis is offline supervision. It must not be supplied to the doctor during diagnosis. The loop expects a permission object; this partial release does not independently implement that access boundary.
+The framework connects four stages:
 
-## Quick start
+1. **Trajectory collection.** Physician, patient, examination, and evaluation roles form a multi-agent consultation environment. The physician follows a Think → Act → Observe loop, accumulating evidence through questions and examinations.
+2. **Assessment and skill distillation.** Trajectory-level and turn-level assessment guide the extraction of reusable inquiry patterns, diagnostic strategies, examination plans, and tool-use experience.
+3. **Skill retrieval.** Before each reasoning turn, the system selects relevant skill categories and retrieves candidates using the current evidence, differential diagnoses, semantic similarity, and skill confidence.
+4. **Skill self-evolution.** Feedback updates skill utility. Related entries are compared for incremental consolidation, refinement, or separate retention, allowing the repository to develop over successive consultations.
 
-From the repository root:
+The figure describes the full framework; this release contains the selected components listed below. Hidden reference diagnoses are used for offline supervision and must remain separate from the physician's online inputs.
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-python -m unittest discover -s tests -v
-python -m examples.offline_walkthrough
-```
-
-On Windows, activate with `.venv\Scripts\Activate.ps1` instead.
-
-The demonstration uses scripted responses to exercise the released message bus and ReAct loop. It prints a synthetic three-turn exchange, a selected skill's fields, and scoring values. **It makes no network calls, performs no learned retrieval or diagnosis, and reports no benchmark accuracy.** No API key is required.
-
-For individual live components, see [interfaces and configuration](docs/ARCHITECTURE.md#external-services). The original adapter assumes an OpenAI-compatible backend with Qwen-style `chat_template_kwargs`; another provider may require adapting that request field.
-
-## Skill representation
-
-Functional category and abstraction level are separate axes:
-
-| Functional category | Purpose |
-|---|---|
-| `patient_inquiry` | Ask targeted questions and fill information gaps |
-| `diagnostic_reasoning` | Update hypotheses and choose the next diagnostic direction |
-| `exam_execution` | Select or interpret examinations |
-| `diagnosis_conclusion` | Synthesize evidence and express the final conclusion |
-
-| Level | Intended scope |
-|---|---|
-| **L1** | Disease-specific experience |
-| **L2** | Experience transferable within a clinical scenario |
-| **L3** | Broad reasoning or workflow principles |
-
-A skill carries `name`, `trigger`, `action`, `decision_rule`, `effect`, `pitfall`, and `generalizable_to`, plus category and level. Runtime records may add confidence, source counts, and provenance. The illustrated `effect` describes an intended benefit, not a measured outcome.
-
-```json
-{
-  "category": "diagnosis_conclusion",
-  "abstraction_level": "L3",
-  "name": "Match diagnostic certainty to available evidence",
-  "trigger": "When preparing the final diagnostic conclusion.",
-  "action": "Separate observed findings, model interpretations, and unresolved assumptions.",
-  "pitfall": "Presenting a plausible hypothesis as established without the necessary evidence."
-}
-```
-
-This abbreviated illustration is expanded in [four English examples](docs/EXAMPLES.md). They explain the schema and are not evidence of clinical effectiveness.
-
-## Scoring and retrieval
-
-These equations describe the included snapshot. They are heuristic scores, not calibrated medical probabilities.
-
-| Operation | Implemented rule |
-|---|---|
-| Initial confidence | `C₀ = 0.7 × E × 100 + 0.3 × g(level)` |
-| Level prior | `g(L1)=50`, `g(L2)=70`, `g(L3)=100` |
-| Lesson-mode adjustment | `C₀ × (0.4 + 0.6 × E)` |
-| Feedback adjustment | `Δ = 5 × tanh(2 × impact)` |
-| Retrieval ranking | `R = 0.5 × cosine + 0.5 × confidence / 100` |
-| Merge score | `mean(source_scores) + min(3, 0.5 × source_count)`, capped at 100 |
-
-| Setting | Snapshot default |
-|---|---:|
-| Consultation turn limit | 8 |
-| Category buffer size before refinement | 5 |
-| Similar existing skills considered for a merge | 2 |
-| Merge-candidate cosine threshold | 0.55 |
-| Retrieval cosine threshold | 0.50 |
-| Retrieval ranking threshold | 0.25 |
-| Maximum injected skills per selected category | 2 |
-| Success-mode evaluation threshold | 0.70 |
-| Skip-mode evaluation threshold | 0.30 |
-
-The level prior affects initial confidence; this retriever does not multiply ranking by a separate level weight. There is no fixed L1/L2/L3 injection quota. See [implementation details and limitations](docs/ARCHITECTURE.md).
-
-## Repository map
+## Repository structure
 
 ```text
-.
+SkillEvo/
 ├── src/
-│   ├── agents/             # Base, doctor, and patient agents
-│   ├── orchestrator/       # ReAct consultation loop and message bus
-│   └── skill_system/       # Extraction, embeddings, scoring, and refinement
-├── skills/                 # Four English schema illustrations
-├── data/example_case.json  # Synthetic, text-only interface fixture
-├── examples/               # Offline scripted walkthrough
-├── tests/                  # Network-free component checks
-├── docs/                   # Architecture, examples, and release boundary
-├── .env.example            # Placeholder service configuration
+│   ├── agents/
+│   │   ├── base_agent.py              # Shared agent and LLM interface
+│   │   ├── doctor_agent.py            # Physician state and Think/Act/Observe prompts
+│   │   └── patient_agent.py           # Responses based on patient-visible information
+│   ├── orchestrator/
+│   │   ├── react_loop.py              # Consultation loop and per-turn skill injection
+│   │   └── message_bus.py             # Message routing and trajectory recording
+│   └── skill_system/
+│       ├── skill_math.py              # Confidence, retrieval, and feedback formulas
+│       ├── skill_embedder.py          # Embedding cache and semantic retrieval
+│       ├── skill_extractor.py         # Trajectory-based skill extraction
+│       └── skill_library_manager.py   # Category buffers and incremental refinement
+├── skills/                            # 20 examples from the original review package
+│   ├── patient_inquiry.json
+│   ├── diagnostic_reasoning.json
+│   ├── exam_execution.json
+│   └── diagnosis_conclusion.json
+├── data/
+│   ├── example_case.json              # Example case structure
+│   └── resp_example_ct.png            # Image supplied with the original example
+├── assets/
+│   └── framework_overview.png         # Framework figure from the paper
 └── requirements.txt
 ```
 
-## Scope and interpretation
+Examination/evaluation agents, permission and session management, complete training/evaluation scripts, model weights, and guideline indexes are outside this partial release. The code files shown here are retained from the original review package; this is not the later single-agent diagnosis-only implementation.
 
-The examples and tests make the interfaces inspectable. They do not reproduce full experiments, establish clinical safety, or demonstrate an accuracy improvement. No benchmark images, clinical records, trained skill banks, private endpoints, credentials, or internal run artifacts are distributed. This snapshot preserves the historical multi-agent method; it does not mix in subsequent single-agent differential-diagnosis experiments.
+## Skill examples
 
-Public datasets and third-party models remain subject to their original terms. This snapshot does not add a software license or grant rights to external data. Bibliographic metadata is omitted during anonymous review.
+Skills have two complementary descriptors: a **functional category** describing their role and an **abstraction level** describing their scope. L1 captures disease-specific experience, L2 captures reusable patterns within a clinical scenario, and L3 captures broad reasoning or workflow principles.
+
+| Category | Role | Examples |
+|---|---|---|
+| Patient inquiry | Identify useful questions and fill information gaps | [5 skills](skills/patient_inquiry.json) |
+| Diagnostic reasoning | Update hypotheses and select the next reasoning direction | [5 skills](skills/diagnostic_reasoning.json) |
+| Examination execution | Guide examination selection and interpretation | [5 skills](skills/exam_execution.json) |
+| Diagnosis conclusion | Synthesize findings and communicate diagnostic uncertainty | [5 skills](skills/diagnosis_conclusion.json) |
+
+The English examples retain the original fields: `name`, `trigger`, `action`, `decision_rule`, `effect`, `pitfall`, `generalizable_to`, and associated metadata. For example:
+
+> **Match Diagnostic Certainty to Evidence Strength — Never Overstate Confidence**<br>
+> Category: `diagnosis_conclusion` · Level: `L3`<br>
+> **Trigger:** Every time a diagnosis is formulated, whether final or interim, at any stage of the clinical encounter.
+
+The [complete entry](skills/diagnosis_conclusion.json) describes how to distinguish a confirmed diagnosis from a provisional hypothesis, identify supporting and opposing evidence, and communicate what additional information would change the assessment.
+
+All 20 entries are preserved from the original review package; no new skill examples have been substituted. Their stored scores, source counts, and intended effects are part of that snapshot and are not additional experimental results or independently validated clinical guidance.
+
+## Example case
+
+[`data/example_case.json`](data/example_case.json) illustrates the original case format with three information sections:
+
+| Section | Intended recipient |
+|---|---|
+| `patient_visible` | Patient-side history, symptoms, and available vital signs |
+| `exam_visible` | Examination-side reports and image references |
+| `eval_hidden` | Offline reference diagnosis and assessment information |
+
+The case and its accompanying image are supplied as originally packaged to illustrate the data interface. They are not a benchmark split or a validated end-to-end demonstration. The hidden section must not be passed to the physician during diagnosis.
+
+## Setup
+
+Python 3.10 or later is recommended. Install the dependencies from the repository root:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+The selected modules use an OpenAI-compatible chat interface and a BGE-M3 embedding service. Configure model endpoints and credentials in your own environment; no credentials or private deployment settings are supplied. The embedding module reads `BGE_M3_ENDPOINT`. The historical chat adapter uses Qwen-style request options, which may need adjustment for another provider.
+
+This snapshot is intended for inspection of the method and its skill representation. Reproducing the full experiments requires the omitted system components, datasets, and evaluation configuration. Third-party datasets and models remain subject to their original terms; bibliographic details are omitted during anonymous review.

@@ -1,29 +1,83 @@
 {
-  "case_id": "SYNTHETIC_WORKFLOW_001",
-  "example_status": "Synthetic text-only interface fixture; not a benchmark patient",
-  "department": "respiratory",
+  "case_id": "resp_example_001",
+  "department": "Respiratory Medicine",
+
   "patient_visible": {
-    "chief_complaint": "Cough and fever for several days.",
-    "present_illness": "The symptoms started before the reported treatment. The exact treatment name is not recorded.",
-    "past_history": "Not recorded.",
+    "chief_complaint": "Recurrent cough and sputum for 3 months, worsened with fever for 1 week",
+    "present_illness": "The patient developed cough 3 months ago without clear precipitating factors, more pronounced in the morning and at night, with yellow-white viscous sputum, moderate volume (~20-30 ml/day), no obvious foul odor. In the past week, cough and sputum have worsened, sputum color changed to yellow-green, volume increased to ~50 ml/day, accompanied by fever (max 38.5°C), more pronounced in the afternoon and evening, with chills, fatigue, and decreased appetite. Self-administered cephalosporin antibiotics for 3 days without significant improvement.",
+    "past_history": "Hypertension for 5 years, well-controlled on amlodipine 5mg daily (BP 130-140/80-90 mmHg). No history of diabetes, coronary artery disease, hepatitis, or tuberculosis.",
+    "personal_history": "Smoking: 30 pack-years (1 pack/day for 30 years). Occasional alcohol. Occupation: office worker, no occupational dust/chemical exposure.",
+    "family_history": "Father diagnosed with lung cancer at age 65. Mother has hypertension. No family history of tuberculosis.",
+    "allergies": "No known drug or food allergies.",
     "vital_signs": {
-      "temperature_celsius": 38.0
+      "temperature": 38.5,
+      "heart_rate": 92,
+      "respiratory_rate": 22,
+      "blood_pressure": "135/85",
+      "oxygen_saturation": "94%"
     }
   },
+
   "exam_visible": {
     "lab_tests": [
       {
-        "test_name": "Example report",
-        "report_text": "Synthetic report R1. This fixture does not encode a clinical diagnosis."
+        "test_name": "Complete Blood Count",
+        "report_text": "WBC 12.5×10^9/L (ref 4.0-10.0), Neutrophils 82% (ref 50-70%), Lymphocytes 14%, Hemoglobin 142 g/L, Platelets 280×10^9/L. CRP 68 mg/L (ref <8 mg/L). Impression: Leukocytosis with neutrophilia, markedly elevated CRP — consistent with bacterial infection."
+      },
+      {
+        "test_name": "Sputum Culture + Sensitivity",
+        "report_text": "Sputum culture: Streptococcus pneumoniae, colony count >10^5 CFU/ml. Sensitivity: Penicillin-sensitive (MIC 0.03 μg/ml), Ceftriaxone-sensitive, Levofloxacin-sensitive, Erythromycin-resistant."
+      },
+      {
+        "test_name": "Comprehensive Metabolic Panel",
+        "report_text": "ALT 35 U/L, AST 30 U/L, Creatinine 78 μmol/L, BUN 5.2 mmol/L, Glucose 5.8 mmol/L. Procalcitonin 2.8 ng/ml (ref <0.05 ng/ml). Impression: Markedly elevated procalcitonin supports bacterial infection diagnosis."
       }
     ],
-    "imaging": [],
+    "imaging": [
+      {
+        "study_name": "Chest CT (Non-Contrast)",
+        "report_text": "Findings: Large patchy high-density consolidation in the posterior segment of the right upper lobe, with ill-defined margins, air bronchogram sign visible within, surrounded by small ground-glass opacity. No enlarged lymph nodes in the right hilum or mediastinum. Left lung field clear. No bilateral pleural effusion.",
+        "key_image": "resp_example_ct.png"
+      }
+    ],
     "pathology": []
   },
+
   "eval_hidden": {
     "gold_standard_diagnosis": {
-      "primary": "Synthetic label A"
+      "primary": "Community-Acquired Pneumonia (right upper lobe), Streptococcus pneumoniae",
+      "icd_code": "J15.9",
+      "severity": "Moderate (CURB-65 score: 1 point — respiratory rate ≥30)"
     },
-    "note": "Offline fixture target only. Never pass this section to the doctor."
+    "ideal_consultation_path": {
+      "key_questions": [
+        "Nature of cough (dry vs productive)",
+        "Sputum color, volume, odor, blood-streaking",
+        "Fever pattern and maximum temperature",
+        "Presence of chest pain or dyspnea",
+        "Prior similar episodes",
+        "Antibiotic usage details",
+        "Smoking history (lung cancer risk factor, combined with family history)",
+        "TB exposure history (differential with pulmonary tuberculosis)"
+      ],
+      "key_exams": [
+        "CBC + CRP (infection markers)",
+        "Chest CT (define lesion nature and extent)",
+        "Sputum culture + sensitivity (identify pathogen and guide antibiotics)",
+        "Procalcitonin (distinguish bacterial from non-bacterial infection)"
+      ],
+      "key_evidence": [
+        "WBC 12.5 + Neutrophils 82% + CRP 68 → bacterial infection",
+        "Chest CT: RUL consolidation + air bronchogram → classic lobar pneumonia",
+        "Procalcitonin 2.8 → strongly suggestive of bacterial infection",
+        "Sputum culture: S. pneumoniae → confirmed pathogen",
+        "Smoking + lung cancer family history → need to exclude lung cancer (CT shows no mass → preliminarily excluded)"
+      ]
+    },
+    "diagnostic_pitfalls": [
+      "Must differentiate from pulmonary TB: no classic TB symptoms (low-grade fever, night sweats, weight loss) but should ask about TB exposure",
+      "Must differentiate from lung cancer: patient has 30 pack-year smoking + family history, but CT shows inflammatory consolidation rather than mass — not consistent with typical lung cancer presentation",
+      "Antibiotics ineffective after 3 days: rule out resistant organisms (sensitivity shows erythromycin-resistant but penicillin-sensitive)"
+    ]
   }
 }

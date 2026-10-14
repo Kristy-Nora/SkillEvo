@@ -24,7 +24,7 @@ class BaseAgent(ABC):
         """Configure the LLM backend for this agent.
 
         Args:
-            model: Model identifier supplied by your backend
+            model: Model identifier (e.g., 'qwen3.7-plus')
             endpoint: OpenAI-compatible API endpoint URL
             api_key: API key (configure via environment variable, not hardcoded)
         """
